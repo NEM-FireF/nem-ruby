@@ -1,0 +1,13 @@
+[
+  {
+    "address":"",
+    "privateKey": "",
+    "autoHarvest":true
+  },
+  {
+    "address":"",
+    "privateKey":"", 
+   "autoHarvest":false
+  }
+]
+
