@@ -17,12 +17,14 @@ You have to put in delegated account Adress and delegated account privateKey int
  
 ##Example 
 nem-ruby$ ./harvesting.rb accounts.json
+
 Account NBAQ2MSDYX2QUSPJJPDSZ3TDGSTCKW55M6JNJ7LP is harvesting
 Disable Harvest
 Account NA33NPNDHQFP2YFLKQVEK3KC3O3WJIUTTTYX4TU5 is not harvesting
 Do not enable Harvest
 
 nem-ruby$ ./harvesting.rb accounts.json
+
 Account NBAQ2MSDYX2QUSPJJPDSZ3TDGSTCKW55M6JNJ7LP is not harvesting
 Enable Harvest
 Account NA33NPNDHQFP2YFLKQVEK3KC3O3WJIUTTTYX4TU5 is not harvesting
