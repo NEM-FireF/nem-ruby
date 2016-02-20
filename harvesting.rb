@@ -17,44 +17,25 @@
 
 
 
-require 'net/http'
 require 'json'
-require 'uri'
- 
-module NisConnect
-  BASE_URI = URI('http://supernode.nemno.de:7890')
-  HTTP = Net::HTTP.new(BASE_URI.host, BASE_URI.port)
- 
-  def self.get(target, args={})
-    unless args.nil?
-      query = URI.encode_www_form(args) 
-    end
-    req =  Net::HTTP::Get.new target + "?" + query 
-    res = HTTP.request(req)
-    JSON.parse(res.body)
-  end
-   
-  def self.post(target, args={})
-    req = Net::HTTP::Post.new(target, initheader = {'Content-Type' =>'application/json'})
-    req.body = args.to_json
-    res = HTTP.request(req)
-  end
-end
+require './lib/NISConnect.rb'
 
-Accounts = JSON.load(File.open(ARGV[0]))
-Accounts.each do |acc|
+nis = NISConnect.new(url: 'http://supernode.nemno.de:7890')
+
+accounts = JSON.load(File.open(ARGV[0]))
+accounts.each do |acc|
   address = acc['address']
   privateKey = acc['privateKey']
   autoHarvest = acc['autoHarvest'] 
 
-  response = NisConnect.get "/account/get", address:  address  
+  response = nis.get "/account/get", address:  address  
   status = response["meta"]["status"]
 
   if status == "LOCKED" 
     puts "Account #{address} is not harvesting"
     if autoHarvest
 	puts "Enable Harvest"
-        response = NisConnect.post '/account/unlock',  value: privateKey 
+        response = nis.post '/account/unlock',  value: privateKey 
     else
        puts "Do not enable Harvest"
     end
@@ -62,7 +43,7 @@ Accounts.each do |acc|
     puts "Account #{address} is harvesting"
     if autoHarvest
       puts "Disable Harvest"
-      response = NisConnect.post '/account/lock',  value: privateKey 
+      response = nis.post '/account/lock',  value: privateKey 
     end
   else
     puts "Some unexpected happened :-/"
